@@ -22,15 +22,16 @@ let blues = [];
 let greens = [];
 
 // variables d'évolution :
-let popI = 31;
-let Brate = 0.0;
-let Drate = 0.2;
-let Rrate = 0.3;
+
+let popI = 100;
+let Brate = 0.1;
+let Drate = 0.511;
+let Rrate = 0.0;
 
 function newGen(){
     // kill
     for(var i = 0; i < blues.length*Drate; i++){
-        blobs.splice(i, 1);
+        blues[i].dying = true;
     }
     // Born
     for(var b = 0; b < blues.length*Brate; b++){
@@ -38,7 +39,7 @@ function newGen(){
         let y= random(height);
         let fam = "blue";
         let blob = new Blob(x, y, fam);
-        blobs.push(blob);
+        blues.push(blob);
         
         //blues.push(blob);
 
@@ -50,7 +51,7 @@ function newGen(){
         let y = blues[i].y+random(2);
         let fam = "blue";
         let blob = new Blob(x, y, fam);
-        blobs.push(blob);
+        blues.push(blob);
         
         //blues.push(blob);
 
@@ -65,22 +66,25 @@ function initialize(population){
         let y = random(0, height); 
         let fam = "blue";
 
-        if(fam == "blue") blues.push(new Blob(x, y, fam));
+        //if(fam == "blue") blobs.push(new Blob(x, y, fam));
         
-        blobs.push(new Blob(x,y,fam))
+        blues.push(new Blob(x,y,fam))
     }
 
 }
 
 
 
-setInterval(newGen, 500)
+setInterval(newGen, 1000);
+
 function setup() {
-    createCanvas(400,400);
+    createCanvas(windowWidth,windowHeight);
     frameRate(60);
 
     initialize(popI);
+
 }
+
 let population;
 function draw() {
     background(80);
@@ -89,9 +93,12 @@ function draw() {
 
     
     // update each blob
-    for(var i = 0; i < blobs.length; i++){
-        blobs[i].update();
+    for(var i = 0; i < blues.length; i++){
+        blues[i].update();
+        if(blues[i].dead == true){
+            blues.splice(i,1)
+        }
     }
-    population = blobs.length;
+    population = blues.length;
     console.log(population);
 }
