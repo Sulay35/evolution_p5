@@ -1,7 +1,7 @@
 # evolution_p5
 _population evolution over the time with p5.js library_
 
-inspired by *primer* 
+inspired by [primer](https://www.youtube.com/channel/UCKzJFdi57J53Vr_BkTfN3uQ "Primer's channel") 
 
 ![alt text][image1]
 
