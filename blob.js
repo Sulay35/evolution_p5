@@ -36,7 +36,7 @@ class Blob{
             }
         }
         if(this.dying == true && this.dead == false && this.borned == true){
-            this.radius -= 0.5;
+            this.radius -= 0.8;
             if(this.radius < 0){
                 this.dead = true;
             }
@@ -49,6 +49,153 @@ class Blob{
         if(this.fam == "red") {this.xoff += 0.005; this.yoff += 0.005}
         else if(this.fam == "green") {this.xoff += 0.003; this.yoff += 0.003}
         else if(this.fam == "blue"){ this.xoff += 0.001; this.yoff += 0.001}
+
+        
+        this.draw();
+    }
+}
+
+//------------------------------------------------------
+// Red blob
+class Red{
+    constructor(x1,y1){
+        this.pos= createVector(x1,y1);
+
+        this.xoff = random(0,width*2);
+        this.yoff = random(0,height*2);
+        this.radius = 0;
+ 
+        this.borning = true;
+        this.borned = false;
+
+        this.dying = false;
+        this.dead = false;
+    }
+    draw(){
+        push();
+        stroke(255,100);
+        fill(255,0,0,220);
+        circle(this.pos.x, this.pos.y, this.radius); 
+        pop();
+    }
+    update(){
+
+        if(this.borning == true && this.borned == false){
+            this.radius += 0.9;
+            if(this.radius > 30){
+                this.borned = true;
+            }
+        }
+        if(this.dying == true && this.dead == false && this.borned == true){
+            this.radius -= 0.8;
+            if(this.radius < 0){
+                this.dead = true;
+            }
+        }
+
+        this.pos.x = map(noise(this.xoff),0,1,0-40,width+50);
+        this.pos.y = map(noise(this.yoff),0,1,0-40,height+50);
+
+        this.xoff += 0.005; 
+        this.yoff += 0.005
+
+        
+        this.draw();
+    }
+}
+
+//------------------------------------------------------
+// greens
+class Green{
+    constructor(x1,y1){
+        this.pos= createVector(x1,y1);
+
+        this.xoff = random(0,width*2);
+        this.yoff = random(0,height*2);
+        this.radius = 0;
+ 
+        this.borning = true;
+        this.borned = false;
+
+        this.dying = false;
+        this.dead = false;
+    }
+    draw(){
+        push();
+        stroke(255,100);
+        fill(0,255,0,220);
+        circle(this.pos.x, this.pos.y, this.radius); 
+        pop();
+    }
+    update(){
+        // Borning animation
+        if(this.borning == true && this.borned == false){
+            this.radius += 0.9;
+            if(this.radius > 30){
+                this.borned = true;
+            }
+        }
+        // Dying animation
+        if(this.dying == true && this.dead == false && this.borned == true){
+            this.radius -= 0.8;
+            if(this.radius < 0){
+                this.dead = true;
+            }
+        }
+        
+        this.pos.x = map(noise(this.xoff),0,1,0-40,width+50);
+        this.pos.y = map(noise(this.yoff),0,1,0-40,height+50);
+
+        this.xoff += 0.003; 
+        this.yoff += 0.003;
+        
+        this.draw();
+    }
+}
+
+//------------------------------------------------------
+// Blues
+class Blue{
+    constructor(x1,y1){
+        this.pos= createVector(x1,y1);
+
+        this.xoff = random(0,width*2);
+        this.yoff = random(0,height*2);
+        this.radius = 0;
+ 
+        this.borning = true;
+        this.borned = false;
+
+        this.dying = false;
+        this.dead = false;
+    }
+    draw(){
+        push();
+        stroke(255,100);
+        fill(0,0,255,220);
+        circle(this.pos.x, this.pos.y, this.radius); 
+        pop();
+    }
+    update(){
+
+        if(this.borning == true && this.borned == false){
+            this.radius += 0.9;
+            if(this.radius > 30){
+                this.borned = true;
+            }
+        }
+        if(this.dying == true && this.dead == false && this.borned == true){
+            this.radius -= 0.8;
+            if(this.radius < 0){
+                this.dead = true;
+            }
+        }
+        
+        this.pos.x = map(noise(this.xoff),0,1,0-40,width+50);
+        this.pos.y = map(noise(this.yoff),0,1,0-40,height+50);
+
+        this.xoff += 0.001; 
+        this.yoff += 0.001
 
         
         this.draw();
