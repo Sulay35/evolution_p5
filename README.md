@@ -12,5 +12,11 @@ inspired by [primer](https://www.youtube.com/channel/UCKzJFdi57J53Vr_BkTfN3uQ "P
 + _pull_request_2_ : Version with the blob rate evolution system 
 + _pull_request_3_ : Version with mutation rate added 
   - blue blobs can mutate into red or green blob with differents rates
++ _pull_req_chancerate_ : Version with chance rate fixed 
+  - the spontaneous rates are based on random
   
-
+## Features to add :
++ Rates can be inputed in a table
++ speed of generation 
++ number of each population
++ statistics
