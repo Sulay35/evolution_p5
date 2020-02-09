@@ -20,3 +20,4 @@ inspired by [primer](https://www.youtube.com/channel/UCKzJFdi57J53Vr_BkTfN3uQ "P
 + speed of generation 
 + number of each population
 + statistics
++ crowding coeficient
