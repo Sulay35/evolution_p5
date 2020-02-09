@@ -11,9 +11,6 @@ function createTest(){
     }
 }
 
-
-
-
 // arrays of data
 let blobs = [];
 
@@ -27,113 +24,126 @@ let popI = 10;
 
 let red = {
     initPop:0,  // initial population
-    Brate: 0.07, // spontaneous birth rate
+    Brate: 0, // spontaneous birth rate
     Drate: 0.5, // spontaneous death rate
-    Rrate: 0.1, // spontaneous replication rate
+    Rrate: 0, // spontaneous replication rate
+    toGreen:0,
 }
 
 let blue = {
     initPop:0,  // initial population
-    Brate: 0.1, // spontaneous birth rate
-    Drate: 0.51, // spontaneous death rate
+    Brate: 0.6, // spontaneous birth rate
+    Drate: 0.1, // spontaneous death rate
     Rrate: 0.1, // spontaneous replication rate
-    toGreen:0.001, // spontaneous green transformation rate
-    toRed:0.2,
+    toGreen:0.1, // spontaneous green transformation rate
+    toRed:0.0,
 }
 
 let green = {
     initPop:0,  // initial population
-    Brate: 0.1, // spontaneous birth rate
-    Drate: 0.81, // spontaneous death rate
-    Rrate: 0.00, // spontaneous replication rate
+    Brate: 0.0, // spontaneous birth rate
+    Drate: 0.1, // spontaneous death rate
+    Rrate: 0.40, // spontaneous replication rate
 }
 
 function newGen(){
-    //----------------
-    // Blues :
-    // kill
-    for(var i = 0; i < blues.length*blue.Drate; i++){
-        blues[i].dying = true;
+    //------------------\
+    // Reds generation  |
+    //------------------/
+    if(random(1) < red.Brate){
+        let x = random(0, width);
+        let y = random(0, height);
+        let redBlob = new Red(x, y);
+        reds.push(redBlob)
     }
-    // Born
-    for(var b = 0; b < blues.length*blue.Brate; b++){
-        let x = random(width);
-        let y= random(height);
-        let fam = "blue";
-        let blob = new Blob(x, y, fam);
-        blues.push(blob);
+    for(var i = 0; i < reds.length; i++){
+        // Replication
+        if(random(1) < red.Rrate){
+            let x = reds[i].x;
+            let y = reds[i].y;
+            let redBlob = new Red(x,y);
+            reds.push(redBlob);
+        }
+        // Dead
+        if(random(1) <= red.Drate){
+            reds[i].dying = true;
+        }
+        // dead
+        if(reds[i].dead == true){
+            reds.splice(i, 1)
+        }
+        // Green mutation:
+        if(random(1) < red.toGreen){
+            console.log('fds');
+            let x = reds[i].x;
+            let y = reds[i].y;
+            let greenBlob = new Green(x,y)
+            greens.push(greenBlob);
+        }
+        
     }
-    // Replicate :
-    for(var b = 0; b < blues.length*blue.Rrate; b++){
-        let x = blues[i].x+random(2);
-        let y = blues[i].y+random(2);
-        let fam = "blue";
-        let blob = new Blob(x, y, fam);
-        blues.push(blob);
+    
+    //------------------\
+    // Blues generation  |
+    //------------------/
+    // birth :
+    if(random(1) < blue.Brate){
+        let x = random(0, width);
+        let y = random(0, height);
+        let blueBlob = new Blue(x, y);
+        blues.push(blueBlob)
     }
-    // turn into green blob
-    for(var b = 0; b < blues.length*blue.toGreen; b++){
-        let x = blues[i].x+random(2);
-        let y = blues[i].y+random(2);
-        let fam = "green";
-        let blob = new Blob(x, y, fam);
-        greens.push(blob);
+    for(var i = 0; i < blues.length; i++){
+        // Replication
+        if(random(1) < blue.Rrate){
+            let x = blues[i].x;
+            let y = blues[i].y;
+            let blueBlob = new Blue(x,y);
+            blues.push(blueBlob);
+        }
+        // Dead
+        if(random(1) <= blue.Drate){
+            blues[i].dying = true;
+        }
+        // dead
+        if(blues[i].dead == true){
+            blues.splice(i, 1)
+        }
+        // Green mutation:
+        if(random(1) < blue.toGreen){
+            let x = blues[i].x;
+            let y = blues[i].y;
+            let greenBlob = new Green(x,y)
+            greens.push(greenBlob);
+        }
+        
     }
-
-    for(var b = 0; b < blues.length*blue.toRed; b++){
-        let x = blues[i].x + random(2);
-        let y = blues[i].x + random(2);
-        let fam = "red";
-        let blob = new Blob(x, y, fam);
-        reds.push(blob)
+    //------------------\
+    // Greens generation  |
+    //------------------/
+    // birth :
+    if(random(1) < green.Brate){
+        let x = random(0, width);
+        let y = random(0, height);
+        let greenBlob = new Green(x, y);
+        greens.push(greenBlob)
     }
-
-    //---------------------------------------------------
-    // Greens :
-    // kill
-    for(var i = 0; i < greens.length*green.Drate; i++){
-        greens[i].dying = true;
-    }
-    // Born
-    for(var b = 0; b < greens.length*green.Brate; b++){
-        let x = random(width);
-        let y= random(height);
-        let fam = "green";
-        let blob = new Blob(x, y, fam);
-        greens.push(blob);
-    }
-     
-    // Replicate :
-    for(var b = 0; b < greens.length*green.Rrate; b++){
-        let x = greens[i].x+random(2);
-        let y = greens[i].y+random(2);
-        let fam = "green";
-        let blob = new Blob(x, y, fam);
-        greens.push(blob);
-    }
-
-    //---------------------------------------------
-    // Reds :
-    // Kill
-    for(var i = 0; i < reds.length*red.Drate; i++){
-        reds[i].dying = true;
-    }
-    // Born
-    for(var b = 0; b < reds.length*red.Brate; b++){
-        let x = random(width);
-        let y= random(height);
-        let fam = "red";
-        let blob = new Blob(x, y, fam);
-        reds.push(blob);
-    }
-     
-    // Replicate :
-    for(var b = 0; b < reds.length*red.Rrate; b++){
-        let x = reds[i].x+random(2);
-        let y = reds[i].y+random(2);
-        let fam = "red";
-        let blob = new Blob(x, y, fam);
-        reds.push(blob);
+    for(var i = 0; i < greens.length; i++){
+        // Replication
+        if(random(1) < green.Rrate){
+            let x = greens[i].x;
+            let y = greens[i].y;
+            let greenBlob = new Green(x,y);
+            greens.push(greenBlob);
+        }
+        // Dead
+        if(random(1) <= green.Drate){
+            greens[i].dying = true;
+        }
+        // dead
+        if(greens[i].dead == true){
+            greens.splice(i, 1)
+        }
     }
 }
 
@@ -143,57 +153,33 @@ function initialize(population){
     for(let i = 0; i < population; i++){
         let x = random(0, width);
         let y = random(0, height); 
-        let fam = "blue";
-        blues.push(new Blob(x,y,fam))
+        reds.push(new Red(x,y))
     }
-
 }
-
-
-
-setInterval(newGen, 1000);
 
 function setup() {
     createCanvas(windowWidth,windowHeight);
     frameRate(60);
-
     initialize(popI);
-
+    setInterval(newGen, 2000);
 }
-
-let population;
 function draw() {
     // Settings 
     background(80);
     let fps = floor(frameRate());
     text(fps,10, 15);
-
-
-    // update each blob
+    
+    // Actualisation
+    // reds 
+    for(var r=0; r < reds.length; r++){
+        reds[r].update();
+    }
     // blues
-    for(var i = 0; i < blues.length; i++){
-        blues[i].update();
-        if(blues[i].dead == true){
-            blues.splice(i,1)
-        }
+    for(var b=0; b < blues.length; b++){
+        blues[b].update();
     }
     // greens
-    for(var i = 0; i < greens.length; i++){
-        greens[i].update();
-        if(greens[i].dead == true){
-            greens.splice(i,1)
-        }
+    for(var g=0; g < greens.length; g++){
+        greens[g].update();
     }
-
-    // reds 
-    for(var i; i < reds.length; i++){
-        reds[i].update();
-        if(reds[i].dead == true){
-            reds.splice(i, 1)
-        }
-    }
-
-
-    population = blues.length;
-    console.log(population);
 }
