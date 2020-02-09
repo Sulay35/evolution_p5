@@ -9,10 +9,12 @@ class Blob{
 
         this.fam = fam;
         
-        this.radius = 30;
+        this.radius = 0;
  
+        this.borning = true;
+        this.borned = false;
 
-        this.die = true;
+        this.dying = false;
         this.dead = false;
     }
     draw(){
@@ -27,11 +29,16 @@ class Blob{
     }
     update(){
 
-        if(this.die == true){
-            if(this.radius > 0){
-                this.radius -= 0.5;
-            }else{
-                this.dead == true;
+        if(this.borning == true && this.borned == false){
+            this.radius += 0.9;
+            if(this.radius > 30){
+                this.borned = true;
+            }
+        }
+        if(this.dying == true && this.dead == false && this.borned == true){
+            this.radius -= 0.5;
+            if(this.radius < 0){
+                this.dead = true;
             }
         }
         
