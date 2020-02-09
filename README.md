@@ -1,4 +1,4 @@
-# evolution_p5
+# Evolution p5
 _population evolution over the time with p5.js library_
 
 inspired by [primer](https://www.youtube.com/channel/UCKzJFdi57J53Vr_BkTfN3uQ "Primer's channel") 
@@ -7,7 +7,7 @@ inspired by [primer](https://www.youtube.com/channel/UCKzJFdi57J53Vr_BkTfN3uQ "P
 
 [image1]:https://github.com/Sulay35/evolution_p5/blob/master/images/Capture.PNG "blobs are happy"
 
-### Tracker :
+## Tracker :
 + _pull_request_1_ : Version with the blob class build
 + _pull_request_2_ : Version with the blob rate evolution system 
 + _pull_request_3_ : Version with mutation rate added 
