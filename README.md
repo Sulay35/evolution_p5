@@ -13,7 +13,7 @@ inspired by [primer](https://www.youtube.com/channel/UCKzJFdi57J53Vr_BkTfN3uQ "P
 + _pull_request_3_ : Version with mutation rate added 
   - blue blobs can mutate into red or green blob with differents rates
 + _pull_req_chancerate_ : Version with chance rate fixed 
-  - the spontaneous rates are based on random
+  - the spontaneous rates are now based on probabilities but depends of random
   
 ## Features to add :
 + Rates can be inputed in a table
