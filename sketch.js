@@ -1,59 +1,78 @@
-function createTest(){
-    for(var i = 0; i < 100; i++){
-        let x = random(0, width);
-        let y = random(0, height);
-        let fam = random(["red", "green", "blue"]);
-        if(fam == "red") reds.push(new Blob(x, y, fam));
-        if(fam == "blue") blues.push(new Blob(x, y, fam));
-        if(fam == "green") greens.push(new Blob(x, y, fam));
-        blobs.push(new Blob(x, y, fam));
-        
-    }
-}
-
 // arrays of data
 let blobs = [];
-
 let reds = [];
 let blues = [];
 let greens = [];
 
-// variables d'évolution :
+let generations = 0;
 
-let popI = 10;
+// variables d'évolution :
+let popI = 20;
 
 let red = {
     initPop:0,  // initial population
-    Brate: 0, // spontaneous birth rate
-    Drate: 0.5, // spontaneous death rate
-    Rrate: 0, // spontaneous replication rate
-    toGreen:0,
+    Brate: 0.3, // spontaneous birth rate
+    Drate: 0.3, // spontaneous death rate
+    Rrate: 0.1, // spontaneous replication rate
+    toGreen:0.01,
 }
 
 let blue = {
     initPop:0,  // initial population
-    Brate: 0.6, // spontaneous birth rate
-    Drate: 0.1, // spontaneous death rate
-    Rrate: 0.1, // spontaneous replication rate
-    toGreen:0.1, // spontaneous green transformation rate
+    Brate: 0.05, // spontaneous birth rate
+    Drate: 0.02, // spontaneous death rate
+    Rrate: 0.0, // spontaneous replication rate
+    toGreen:0.20, // spontaneous green transformation rate
     toRed:0.0,
 }
 
 let green = {
     initPop:0,  // initial population
     Brate: 0.0, // spontaneous birth rate
-    Drate: 0.1, // spontaneous death rate
-    Rrate: 0.40, // spontaneous replication rate
+    Drate: 0.5, // spontaneous death rate
+    Rrate: 0.1, // spontaneous replication rate
 }
 
 function newGen(){
+    // Population total
+    blobs = reds.concat(blue, greens);
+
+    // buffer :
+    // keep a fork of X axis of 50 if generation is greater than 50
+    if(myChart.data.labels.length > 50){
+        myChart.options.scales.xAxes[0].ticks.min = generations - 50;
+        myChart.options.scales.xAxes[0].ticks.max = generations + 1;
+    }
+    
+    //add to the x axis the number of generation
+    myChart.data.labels.push(generations);
+    
+    // Reds 
+    myChart.data.datasets[0].data.push(reds.length);
+
+    // Greens
+    myChart.data.datasets[1].data.push(greens.length);
+    
+    // Blues 
+    myChart.data.datasets[2].data.push(blues.length);
+    
+    myChart.update();
+
+    // Blobs total :
+    myChart.data.datasets[3].data.push(blobs.length);
+    myChart.update();
+    
+    // count of the generations
+    generations++;
+
+    
     //------------------\
     // Reds generation  |
     //------------------/
     if(random(1) < red.Brate){
         let x = random(0, width);
         let y = random(0, height);
-        let redBlob = new Red(x, y);
+        let redBlob = new Blob(x, y, "red");
         reds.push(redBlob)
     }
     for(var i = 0; i < reds.length; i++){
@@ -61,7 +80,9 @@ function newGen(){
         if(random(1) < red.Rrate){
             let x = reds[i].x;
             let y = reds[i].y;
-            let redBlob = new Red(x,y);
+            let redBlob = new Blob(x,y, "red");
+            redBlob.xoff = random(reds[i].xoff, reds[i].xoff +1);
+            redBlob.yoff = random(reds[i].yoff, reds[i].xoff +1);
             reds.push(redBlob);
         }
         // Dead
@@ -74,10 +95,11 @@ function newGen(){
         }
         // Green mutation:
         if(random(1) < red.toGreen){
-            console.log('fds');
             let x = reds[i].x;
             let y = reds[i].y;
-            let greenBlob = new Green(x,y)
+            let greenBlob = new Blob(x, y, "green");
+            greenBlob.xoff = random(reds[i].xoff, reds[i].xoff +1);
+            greenBlob.yoff = random(reds[i].yoff, reds[i].xoff +1);
             greens.push(greenBlob);
         }
         
@@ -90,7 +112,7 @@ function newGen(){
     if(random(1) < blue.Brate){
         let x = random(0, width);
         let y = random(0, height);
-        let blueBlob = new Blue(x, y);
+        let blueBlob = new Blob(x, y, "blue");
         blues.push(blueBlob)
     }
     for(var i = 0; i < blues.length; i++){
@@ -98,8 +120,18 @@ function newGen(){
         if(random(1) < blue.Rrate){
             let x = blues[i].x;
             let y = blues[i].y;
-            let blueBlob = new Blue(x,y);
+            let blueBlob = new Blob(x, y, "blue");
+            blueBlob.xoff = random(blues[i].xoff, blues[i].xoff +1);
+            blueBlob.yoff = random(blues[i].yoff, blues[i].xoff +1);
             blues.push(blueBlob);
+        }
+        if(random(1) < blue.toGreen){
+            let x = blues[i].x;
+            let y = blues[i].y;
+            let greenBlob = new Blob(x,y, "green");
+            greenBlob.xoff = random(blues[i].xoff, blues[i].xoff +1);
+            greenBlob.yoff = random(blues[i].yoff, blues[i].xoff +1);
+            greens.push(greenBlob);
         }
         // Dead
         if(random(1) <= blue.Drate){
@@ -110,12 +142,7 @@ function newGen(){
             blues.splice(i, 1)
         }
         // Green mutation:
-        if(random(1) < blue.toGreen){
-            let x = blues[i].x;
-            let y = blues[i].y;
-            let greenBlob = new Green(x,y)
-            greens.push(greenBlob);
-        }
+        
         
     }
     //------------------\
@@ -125,7 +152,7 @@ function newGen(){
     if(random(1) < green.Brate){
         let x = random(0, width);
         let y = random(0, height);
-        let greenBlob = new Green(x, y);
+        let greenBlob = new Blob(x,y, "green");
         greens.push(greenBlob)
     }
     for(var i = 0; i < greens.length; i++){
@@ -133,7 +160,7 @@ function newGen(){
         if(random(1) < green.Rrate){
             let x = greens[i].x;
             let y = greens[i].y;
-            let greenBlob = new Green(x,y);
+            let greenBlob = new Blob(x,y, "green");
             greens.push(greenBlob);
         }
         // Dead
@@ -145,6 +172,7 @@ function newGen(){
             greens.splice(i, 1)
         }
     }
+    
 }
 
 
@@ -153,15 +181,16 @@ function initialize(population){
     for(let i = 0; i < population; i++){
         let x = random(0, width);
         let y = random(0, height); 
-        reds.push(new Red(x,y))
+        reds.push(new Blob(x,y, "red"))
     }
 }
 
 function setup() {
     createCanvas(windowWidth,windowHeight);
+    createCanvas(500,500);
     frameRate(60);
     initialize(popI);
-    setInterval(newGen, 2000);
+    setInterval(newGen, 500);
 }
 function draw() {
     // Settings 
@@ -182,4 +211,8 @@ function draw() {
     for(var g=0; g < greens.length; g++){
         greens[g].update();
     }
+}
+
+function mouseClicked(){
+    blues.push(new Blob(mouseX, mouseY, random(["blue", "red", "green"])))
 }
