@@ -36,4 +36,4 @@ This project is inspired by [primer](https://www.youtube.com/channel/UCKzJFdi57J
 + statistics ✅
 + crowding coeficient
 + pause generating : `setInterval and clearInterval`
-+ Max tracking
++ Max population tracking
