@@ -37,3 +37,5 @@ This project is inspired by [primer](https://www.youtube.com/channel/UCKzJFdi57J
 + crowding coeficient
 + pause generating : `setInterval and clearInterval`
 + Max population tracking
++ reset and start button
++ a table for each initial population
