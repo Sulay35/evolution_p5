@@ -23,7 +23,9 @@ This project is inspired by [primer](https://www.youtube.com/channel/UCKzJFdi57J
   - the spontaneous rates are now based on probabilities but depends of random
 + _pull_request_5_chart_ : statistics added :
   - Using `chart.js`
-  - TO ADD : Proportion chart because it's only number chart -> percentages
+  - TO ADD : 
+    + Proportion chart because it's only number chart -> percentages
+    + Y axis responsive
   
 ## Features to add :
 + Rates can be inputed in a table
@@ -32,3 +34,4 @@ This project is inspired by [primer](https://www.youtube.com/channel/UCKzJFdi57J
 + statistics ✅
 + crowding coeficient
 + pause generating : `setInterval and clearInterval`
++ Max tracking
