@@ -24,7 +24,7 @@ This project is inspired by [primer](https://www.youtube.com/channel/UCKzJFdi57J
 + _pull_request_5_chart_ : statistics added :
   - Using `chart.js`
   - TO ADD : 
-    + Proportion chart because it's only number chart -> percentages
+    + Proportion chart because it's only number of blobs -> percentages
     + Y axis responsive
   
 ## Features to add :
