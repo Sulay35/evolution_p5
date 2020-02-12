@@ -22,7 +22,7 @@ This project is inspired by [primer](https://www.youtube.com/channel/UCKzJFdi57J
 + _pull_req_chancerate_ : Version with chance rate fixed 
   - the spontaneous rates are now based on probabilities but depends of random
 + _pull_request_5_chart_ : statistics added :
-  - Using `chart.js`
+  - Using `chart.js` library
   - `Libraries` folder added
   - `Chart.js` javascript file for chart configuration 
   - TO ADD : 
