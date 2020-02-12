@@ -23,6 +23,8 @@ This project is inspired by [primer](https://www.youtube.com/channel/UCKzJFdi57J
   - the spontaneous rates are now based on probabilities but depends of random
 + _pull_request_5_chart_ : statistics added :
   - Using `chart.js`
+  - `Libraries` folder added
+  - `Chart.js` javascript file for chart configuration 
   - TO ADD : 
     + Proportion chart because it's only number of blobs -> percentages
     + Y axis responsive
